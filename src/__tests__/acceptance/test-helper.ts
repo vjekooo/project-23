@@ -3,10 +3,10 @@ import {
   createRestAppClient,
   givenHttpServerConfig,
 } from '@loopback/testlab';
-import {TodoListApplication} from '../..';
+import {MainApplication} from '../..';
 
 export async function setupApplication(): Promise<AppWithClient> {
-  const app = new TodoListApplication({
+  const app = new MainApplication({
     rest: givenHttpServerConfig(),
   });
 
@@ -19,6 +19,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 }
 
 export interface AppWithClient {
-  app: TodoListApplication;
+  app: MainApplication;
   client: Client;
 }

@@ -8,7 +8,7 @@ import {
   toJSON,
 } from '@loopback/testlab';
 import morgan from 'morgan';
-import {TodoListApplication} from '../../application';
+import {MainApplication} from '../../application';
 import {Todo} from '../../models/';
 import {TodoRepository} from '../../repositories/';
 import {Geocoder} from '../../services';
@@ -22,7 +22,7 @@ import {
 } from '../helpers';
 
 describe('TodoApplication', () => {
-  let app: TodoListApplication;
+  let app: MainApplication;
   let client: Client;
   let todoRepo: TodoRepository;
 
@@ -389,7 +389,7 @@ describe('TodoApplication', () => {
    */
 
   async function givenRunningApplicationWithCustomConfiguration() {
-    app = new TodoListApplication({
+    app = new MainApplication({
       rest: givenHttpServerConfig(),
     });
 
