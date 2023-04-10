@@ -2,7 +2,7 @@ import {HttpCachingProxy} from '@loopback/http-caching-proxy';
 import {merge} from 'lodash';
 import path from 'path';
 import {GeocoderDataSource} from '../datasources';
-import {Todo} from '../models';
+import {User} from '../models';
 import {Geocoder, GeoPoint} from '../services';
 
 /*
@@ -26,19 +26,19 @@ import {Geocoder, GeoPoint} from '../services';
  *
 
 /**
- * Generate a complete Todo object for use with tests.
- * @param todo - A partial (or complete) Todo object.
+ * Generate a complete User object for use with tests.
+ * @param User - A partial (or complete) User object.
  */
-export function givenTodo(todo?: Partial<Todo>) {
+export function givenUser(user?: Partial<User>) {
   const data = Object.assign(
     {
       title: 'do a thing',
       desc: 'There are some things that need doing',
       isComplete: false,
     },
-    todo,
+    user,
   );
-  return new Todo(data);
+  return new User(data);
 }
 
 export const aLocation = {

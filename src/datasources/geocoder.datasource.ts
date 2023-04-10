@@ -6,7 +6,7 @@ const config = {
   // A workaround for the current design flaw where inside our monorepo,
   //   packages/service-proxy/node_modules/loopback-datasource-juggler
   // cannot see/load the connector from
-  //   examples/todo/node_modules/loopback-connector-rest
+  //   examples/user/node_modules/loopback-connector-rest
   connector: require('loopback-connector-rest'),
   options: {
     headers: {

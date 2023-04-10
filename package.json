@@ -18,7 +18,7 @@
   "scripts": {
     "build": "lb-tsc",
     "build:watch": "lb-tsc --watch",
-    "clean": "lb-clean *example-todo*.tgz dist *.tsbuildinfo package",
+    "clean": "lb-clean *project-23-server*.tgz dist *.tsbuildinfo package",
     "lint": "yarn run prettier:check && yarn run eslint",
     "lint:fix": "yarn run eslint:fix && yarn run prettier:fix",
     "prettier:cli": "lb-prettier \"**/*.ts\"",
@@ -29,7 +29,6 @@
     "pretest": "npm run rebuild",
     "test": "lb-mocha \"dist/__tests__/**/*.js\"",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
-    "verify": "npm pack && tar xf loopback-todo*.tgz && tree package && npm run clean",
     "premigrate": "npm run build ",
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
@@ -48,15 +47,19 @@
     "@loopback/rest": "^12.0.9",
     "@loopback/rest-explorer": "^5.0.9",
     "@loopback/service-proxy": "^5.0.9",
+    "config": "^3.3.9",
+    "loopback-connector-postgresql": "^5.5.2",
     "loopback-connector-rest": "^4.0.2",
     "morgan": "^1.10.0",
-    "tslib": "^2.5.0"
+    "tslib": "^2.5.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@loopback/build": "^9.0.9",
     "@loopback/eslint-config": "^13.0.9",
     "@loopback/http-caching-proxy": "^4.0.9",
     "@loopback/testlab": "^5.0.9",
+    "@types/config": "^3.3.0",
     "@types/lodash": "^4.14.191",
     "@types/morgan": "^1.9.4",
     "@types/node": "^14.18.36",
