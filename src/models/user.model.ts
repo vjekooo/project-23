@@ -17,8 +17,19 @@ export class User extends Entity {
   @property({
     type: 'string',
     required: true,
+    index: {
+      unique: true
+    }
   })
-  username: string;
+  email: string;
+
+  @property({
+    type: 'string',
+    index: {
+      unique: true
+    }
+  })
+  username?: string;
 
   @property({
     type: 'string',

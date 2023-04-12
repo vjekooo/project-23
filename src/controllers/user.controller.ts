@@ -61,7 +61,7 @@ export class UserController {
     //     throw new HttpErrors.BadRequest(
     //       `Address not found: ${user.geoLocation}`,
     //     );
-    //   }
+    //
     //   // Encode the coordinates as "lat,lng" (Google Maps API format). See also
     //   // https://stackoverflow.com/q/7309121/69868
     //   // https://gis.stackexchange.com/q/7379
