@@ -34,4 +34,4 @@ export interface AddressRelations {
   // describe navigational properties here
 }
 
-export type UserWithRelations = Address & AddressRelations;
+export type AddressWithRelations = Address & AddressRelations;

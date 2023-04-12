@@ -3,7 +3,7 @@
     "dbConfig": {
       "host": "",
       "port": 0,
-      "dbName": "",
+      "databaseName": "",
       "user": "",
       "password": ""
     }
