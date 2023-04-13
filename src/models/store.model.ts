@@ -1,5 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import { uuid } from 'uuidv4';
+import {User} from "./user.model";
 
 @model()
 export class Store extends Entity {
@@ -22,6 +23,7 @@ export class Store extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
   description: string;
 
@@ -30,6 +32,9 @@ export class Store extends Entity {
     default: () => new Date()
   })
   created?: string;
+
+  @belongsTo(() => User)
+  userId: number;
 
   constructor(data?: Partial<Store>) {
     super(data);

@@ -1,5 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import { uuid } from 'uuidv4';
+import {Store} from "./store.model";
 
 @model()
 export class User extends Entity {
@@ -52,6 +53,9 @@ export class User extends Entity {
     default: () => false
   })
   isConfirmed?: string;
+
+  @hasMany(() => Store, {keyTo: 'userid'})
+  stores?: Store[];
 
   // @property({
   //   type: 'any',

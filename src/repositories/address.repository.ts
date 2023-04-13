@@ -3,7 +3,7 @@ import {DefaultCrudRepository} from '@loopback/repository';
 import {DbDataSource} from '../datasources';
 import {Address, AddressRelations} from '../models';
 
-export class AddressRepositoryRepository extends DefaultCrudRepository<
+export class AddressRepository extends DefaultCrudRepository<
   Address,
   typeof Address.prototype.id,
   AddressRelations
