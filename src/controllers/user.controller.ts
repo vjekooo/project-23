@@ -18,14 +18,16 @@ import {
   put,
   requestBody,
 } from '@loopback/rest';
-import {User} from '../models';
-import {UserRepository} from '../repositories';
+import {Address, Store, User} from '../models';
+import {AddressRepository, UserRepository} from '../repositories';
 import {Geocoder} from '../services';
 
 export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(AddressRepository)
+    public addressRepository: AddressRepository,
     @inject('services.Geocoder') protected geoService: Geocoder,
   ) {}
 
@@ -50,24 +52,33 @@ export class UserController {
     })
     user: Omit<User, 'id'>,
   ): Promise<User> {
-    // if (user.geoLocation) {
-    //   const geo = await this.geoService.geocode(user.geoLocation);
-    //
-    //   // ignoring because if the service is down, the following section will
-    //   // not be covered
-    //   /* istanbul ignore next */
-    //   if (!geo[0]) {
-    //     // address not found
-    //     throw new HttpErrors.BadRequest(
-    //       `Address not found: ${user.geoLocation}`,
-    //     );
-    //
-    //   // Encode the coordinates as "lat,lng" (Google Maps API format). See also
-    //   // https://stackoverflow.com/q/7309121/69868
-    //   // https://gis.stackexchange.com/q/7379
-    //   user.geoLocation = `${geo[0].y},${geo[0].x}`;
-    // }
     return this.userRepository.create(user);
+  }
+
+  @post('/users/address/{userId}', {
+    responses: {
+      '200': {
+        description: 'Address model instance',
+        content: {'application/json': {schema: getModelSchemaRef(Address)}},
+      },
+    },
+  })
+  async createAddress(
+    @param.path.string('userId') userId: string,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Address, {
+            title: 'NewAddress',
+            exclude: ['id'],
+          }),
+        },
+      },
+    })
+      address: Omit<Address, 'id'>,
+  ): Promise<Address> {
+    const newAddress = {...address, userId}
+    return this.addressRepository.create(newAddress);
   }
 
   @get('/users/{id}', {
@@ -83,10 +94,29 @@ export class UserController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @param.filter(User, {exclude: 'where'}) filter?: FilterExcludingWhere<User>,
   ): Promise<User> {
     return this.userRepository.findById(id, filter);
+  }
+
+  @get('/users/{id}/stores', {
+    responses: {
+      '200': {
+        description: 'Array of Users has many Store',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(Store)},
+          },
+        },
+      },
+    },
+  })
+  async findUserStores(
+    @param.path.string('id') id: string,
+    @param.query.object('filter') filter?: Filter<Store>,
+  ): Promise<Store[]> {
+    return this.userRepository.stores(id).find(filter);
   }
 
   @get('/users', {
@@ -116,7 +146,7 @@ export class UserController {
     },
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() user: User,
   ): Promise<void> {
     await this.userRepository.replaceById(id, user);
@@ -130,7 +160,7 @@ export class UserController {
     },
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody({
       content: {
         'application/json': {
@@ -150,7 +180,7 @@ export class UserController {
       },
     },
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
+  async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userRepository.deleteById(id);
   }
 

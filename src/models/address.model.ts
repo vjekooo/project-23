@@ -1,10 +1,11 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import { uuid } from 'uuidv4';
+import {User, UserWithRelations} from "./user.model";
 
 @model()
 export class Address extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     useDefaultIdType: false,
     default: () => uuid(),
@@ -25,13 +26,16 @@ export class Address extends Entity {
   // })
   // geoLocation?: any;
 
+  @belongsTo(() => User)
+  userId: string;
+
   constructor(data?: Partial<Address>) {
     super(data);
   }
 }
 
 export interface AddressRelations {
-  // describe navigational properties here
+  user: UserWithRelations
 }
 
 export type AddressWithRelations = Address & AddressRelations;

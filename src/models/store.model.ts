@@ -1,11 +1,11 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import { uuid } from 'uuidv4';
-import {User} from "./user.model";
+import {User, UserWithRelations} from "./user.model";
 
 @model()
 export class Store extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     useDefaultIdType: false,
     default: () => uuid(),
@@ -13,7 +13,7 @@ export class Store extends Entity {
       dataType: 'uuid',
     },
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'string',
@@ -34,7 +34,7 @@ export class Store extends Entity {
   created?: string;
 
   @belongsTo(() => User)
-  userId: number;
+  userId: string;
 
   constructor(data?: Partial<Store>) {
     super(data);
@@ -42,7 +42,7 @@ export class Store extends Entity {
 }
 
 export interface StoreRelations {
-  // describe navigational properties here
+  user: UserWithRelations
 }
 
 export type StoreWithRelations = Store & StoreRelations;

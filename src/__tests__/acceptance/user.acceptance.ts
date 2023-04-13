@@ -21,6 +21,8 @@ import {
   isGeoCoderServiceAvailable,
 } from '../helpers';
 
+const id = "1"
+
 describe('UserApplication', () => {
   let app: MainApplication;
   let client: Client;
@@ -77,7 +79,7 @@ describe('UserApplication', () => {
 
   it('rejects requests with input that contains excluded properties', async () => {
     const user = givenUser();
-    user.id = 1;
+    user.id = id;
     await client.post('/users').send(user).expect(422);
   });
 
@@ -247,11 +249,11 @@ describe('UserApplication', () => {
   });
 
   it('queries users with a filter', async () => {
-    await givenUserInstance({username: 'vjekooo', id: 1});
+    await givenUserInstance({username: 'vjekooo', id});
 
     const userInProgress = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     await client
@@ -261,8 +263,8 @@ describe('UserApplication', () => {
   });
 
   it('exploded filter conditions work', async () => {
-    await givenUserInstance({username: 'vjekooo', id: 1});
-    await givenUserInstance({username: 'vjekooo', id: 1});
+    await givenUserInstance({username: 'vjekooo', id});
+    await givenUserInstance({username: 'vjekooo', id});
 
     const response = await client.get('/users').query('filter[limit]=2');
     expect(response.body).to.have.length(2);
@@ -270,17 +272,17 @@ describe('UserApplication', () => {
 
   it('queries users with string-based order filter', async () => {
     const userInProgress = await givenUserInstance(
-    {username: 'vjekooo', id: 1}
+    {username: 'vjekooo', id}
     );
 
     const userCompleted = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted2 = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     await client
@@ -292,17 +294,17 @@ describe('UserApplication', () => {
   it('queries users with array-based order filter', async () => {
     const userInProgress = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted2 = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     await client
@@ -314,17 +316,17 @@ describe('UserApplication', () => {
   it('queries users with exploded string-based order filter', async () => {
     const userInProgress = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted2 = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     await client
@@ -340,7 +342,7 @@ describe('UserApplication', () => {
   it('queries users with exploded array-based fields filter', async () => {
     await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
     await client
       .get('/users')
@@ -351,17 +353,17 @@ describe('UserApplication', () => {
   it('queries users with exploded array-based order filter', async () => {
     const userInProgress = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     const userCompleted2 = await givenUserInstance({
       username: 'vjekooo',
-      id: 1,
+      id,
     });
 
     await client

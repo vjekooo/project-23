@@ -40,7 +40,11 @@ export class StoreController {
       store: Omit<Store, 'id'>,
   ): Promise<Store> {
 
-    return this.storeRepository.create(store);
+    const userId = "05c28fe7-d7b2-4c32-a87e-71da513278d5"
+
+    const newStore = {...store, userId}
+
+    return this.storeRepository.create(newStore);
   }
   @get('/stores/{id}', {
     responses: {
@@ -51,7 +55,7 @@ export class StoreController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @param.filter(Store, {exclude: 'where'}) filter?: FilterExcludingWhere<Store>,
   ): Promise<Store> {
     return this.storeRepository.findById(id, filter);

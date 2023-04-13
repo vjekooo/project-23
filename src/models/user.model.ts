@@ -1,11 +1,12 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import { uuid } from 'uuidv4';
-import {Store} from "./store.model";
+import {Store, StoreWithRelations} from "./store.model";
+import {Address, AddressWithRelations} from "./address.model";
 
 @model()
 export class User extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     useDefaultIdType: false,
     default: () => uuid(),
@@ -13,7 +14,7 @@ export class User extends Entity {
       dataType: 'uuid',
     },
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'string',
@@ -54,6 +55,9 @@ export class User extends Entity {
   })
   isConfirmed?: string;
 
+  @hasOne(() => Address, {keyTo: 'userid'})
+  address?: Address;
+
   @hasMany(() => Store, {keyTo: 'userid'})
   stores?: Store[];
 
@@ -68,7 +72,8 @@ export class User extends Entity {
 }
 
 export interface UserRelations {
-  // describe navigational properties here
+  address?: AddressWithRelations;
+  stores?: StoreWithRelations[];
 }
 
 export type UserWithRelations = User & UserRelations;
