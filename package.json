@@ -35,7 +35,8 @@
     "openapi-spec": "node ./dist/openapi-spec",
     "rebuild": "yarn run clean && yarn run build",
     "prestart": "yarn run rebuild",
-    "start": "node ."
+    "start": "node .",
+    "dev": "nodemon src/index.ts"
   },
   "publishConfig": {
     "access": "public"
@@ -65,7 +66,18 @@
     "@types/node": "^14.18.36",
     "eslint": "^8.35.0",
     "lodash": "^4.17.21",
+    "nodemon": "^2.0.22",
     "typescript": "~4.9.4"
   },
-  "gitHead": "6bee26c2dad33cc4668cd0a4a127c9e7596dfef9"
+  "nodemonConfig": {
+    "verbose": true,
+    "watch": [
+      "src/"
+    ],
+    "ignore": [
+      "dist/*"
+    ],
+    "ext": "ts",
+    "exec": "yarn start"
+  }
 }

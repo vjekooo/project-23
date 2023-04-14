@@ -15,12 +15,13 @@ import {
   param,
   patch,
   post,
-  put,
+  put, Request,
   requestBody,
 } from '@loopback/rest';
 import {Address, Store, User} from '../models';
 import {AddressRepository, UserRepository} from '../repositories';
-import {Geocoder} from '../services';
+import {RestBindings} from '@loopback/rest';
+import {Geocoder} from "../services";
 
 export class UserController {
   constructor(
@@ -29,6 +30,7 @@ export class UserController {
     @repository(AddressRepository)
     public addressRepository: AddressRepository,
     @inject('services.Geocoder') protected geoService: Geocoder,
+    @inject(RestBindings.Http.REQUEST) private requestCtx: Request,
   ) {}
 
   @post('/users', {
@@ -55,7 +57,7 @@ export class UserController {
     return this.userRepository.create(user);
   }
 
-  @post('/users/address/{userId}', {
+  @post('/users/address', {
     responses: {
       '200': {
         description: 'Address model instance',
@@ -64,7 +66,6 @@ export class UserController {
     },
   })
   async createAddress(
-    @param.path.string('userId') userId: string,
     @requestBody({
       content: {
         'application/json': {
@@ -77,6 +78,7 @@ export class UserController {
     })
       address: Omit<Address, 'id'>,
   ): Promise<Address> {
+    const userId = ""
     const newAddress = {...address, userId}
     return this.addressRepository.create(newAddress);
   }
@@ -116,6 +118,7 @@ export class UserController {
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Store>,
   ): Promise<Store[]> {
+    console.log(this.requestCtx.header("Authorization"))
     return this.userRepository.stores(id).find(filter);
   }
 
