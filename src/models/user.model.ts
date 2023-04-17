@@ -2,6 +2,7 @@ import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import { uuid } from 'uuidv4';
 import {Store, StoreWithRelations} from "./store.model";
 import {Address, AddressWithRelations} from "./address.model";
+import {UserCredentials} from "./user-credentials.model";
 
 @model()
 export class User extends Entity {
@@ -14,7 +15,7 @@ export class User extends Entity {
       dataType: 'uuid',
     },
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',
@@ -61,6 +62,9 @@ export class User extends Entity {
   @hasMany(() => Store, {keyTo: 'userid'})
   stores?: Store[];
 
+  @hasOne(() => UserCredentials)
+  credentials?: UserCredentials;
+
   // @property({
   //   type: 'any',
   // })
@@ -74,6 +78,7 @@ export class User extends Entity {
 export interface UserRelations {
   address?: AddressWithRelations;
   stores?: StoreWithRelations[];
+  credentials?: UserCredentials;
 }
 
 export type UserWithRelations = User & UserRelations;

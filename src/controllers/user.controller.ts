@@ -33,15 +33,15 @@ export class UserController {
     @inject(RestBindings.Http.REQUEST) private requestCtx: Request,
   ) {}
 
-  @post('/users', {
+  @post('/signup', {
     responses: {
       '200': {
-        description: 'User model instance',
+        description: 'Signup new user',
         content: {'application/json': {schema: getModelSchemaRef(User)}},
       },
     },
   })
-  async create(
+  async signup(
     @requestBody({
       content: {
         'application/json': {
@@ -53,6 +53,29 @@ export class UserController {
       },
     })
     user: Omit<User, 'id'>,
+  ): Promise<User> {
+    return this.userRepository.create(user);
+  }
+
+  @post('/users/login', {
+    responses: {
+      '200': {
+        description: 'Login',
+        content: {'application/json': {schema: getModelSchemaRef(User)}},
+      },
+    },
+  })
+  async login(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(User, {
+            exclude: ['id'],
+          }),
+        },
+      },
+    })
+      user: Omit<User, 'id'>,
   ): Promise<User> {
     return this.userRepository.create(user);
   }

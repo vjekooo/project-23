@@ -40,7 +40,7 @@ describe('UserController', () => {
     it('creates a User', async () => {
       const create = userRepo.stubs.create;
       create.resolves(aUserWithId);
-      const result = await controller.create(aUser);
+      const result = await controller.signup(aUser);
       expect(result).to.eql(aUserWithId);
       sinon.assert.calledWith(create, aUser);
     });
