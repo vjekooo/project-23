@@ -1,24 +1,20 @@
-import {
-  Client,
-  createRestAppClient,
-  givenHttpServerConfig,
-} from '@loopback/testlab';
-import {MainApplication} from '../..';
+import { Client, createRestAppClient, givenHttpServerConfig } from '@loopback/testlab';
+import { MainApplication } from '../..';
 
 export async function setupApplication(): Promise<AppWithClient> {
-  const app = new MainApplication({
-    rest: givenHttpServerConfig(),
-  });
+	const app = new MainApplication({
+		rest: givenHttpServerConfig()
+	});
 
-  await app.boot();
-  await app.start();
+	await app.boot();
+	await app.start();
 
-  const client = createRestAppClient(app);
+	const client = createRestAppClient(app);
 
-  return {app, client};
+	return { app, client };
 }
 
 export interface AppWithClient {
-  app: MainApplication;
-  client: Client;
+	app: MainApplication;
+	client: Client;
 }

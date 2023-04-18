@@ -1,9 +1,9 @@
-import {HttpCachingProxy} from '@loopback/http-caching-proxy';
-import {merge} from 'lodash';
+import { HttpCachingProxy } from '@loopback/http-caching-proxy';
+import { merge } from 'lodash';
 import path from 'path';
-import {GeocoderDataSource} from '../datasources';
-import {User} from '../models';
-import {Geocoder, GeoPoint} from '../services';
+import { GeocoderDataSource } from '../datasources';
+import { User } from '../models';
+import { Geocoder, GeoPoint } from '../services';
 
 /*
  ==============================================================================
@@ -30,53 +30,53 @@ import {Geocoder, GeoPoint} from '../services';
  * @param User - A partial (or complete) User object.
  */
 export function givenUser(user?: Partial<User>) {
-  const data = Object.assign(
-    {
-      title: 'do a thing',
-      desc: 'There are some things that need doing',
-      isComplete: false,
-    },
-    user,
-  );
-  return new User(data);
+	const data = Object.assign(
+		{
+			title: 'do a thing',
+			desc: 'There are some things that need doing',
+			isComplete: false
+		},
+		user
+	);
+	return new User(data);
 }
 
 export const aLocation = {
-  address: '1 New Orchard Road, Armonk, 10504',
-  geopoint: <GeoPoint>{y: 41.10965601083235, x: -73.72466486205613},
-  get geostring() {
-    return `${this.geopoint.y},${this.geopoint.x}`;
-  },
+	address: '1 New Orchard Road, Armonk, 10504',
+	geopoint: <GeoPoint>{ y: 41.10965601083235, x: -73.72466486205613 },
+	get geostring() {
+		return `${this.geopoint.y},${this.geopoint.x}`;
+	}
 };
 
 export function getProxiedGeoCoderConfig(proxy: HttpCachingProxy) {
-  return merge({}, GeocoderDataSource.defaultConfig, {
-    options: {
-      proxy: proxy.url,
-      tunnel: false,
-    },
-  });
+	return merge({}, GeocoderDataSource.defaultConfig, {
+		options: {
+			proxy: proxy.url,
+			tunnel: false
+		}
+	});
 }
 
-export {HttpCachingProxy};
+export { HttpCachingProxy };
 export async function givenCachingProxy() {
-  const proxy = new HttpCachingProxy({
-    cachePath: path.resolve(__dirname, '.http-cache'),
-    logError: false,
-    timeout: 5000,
-  });
-  await proxy.start();
-  return proxy;
+	const proxy = new HttpCachingProxy({
+		cachePath: path.resolve(__dirname, '.http-cache'),
+		logError: false,
+		timeout: 5000
+	});
+	await proxy.start();
+	return proxy;
 }
 
 export async function isGeoCoderServiceAvailable(service: Geocoder) {
-  try {
-    await service.geocode(aLocation.address);
-    return true;
-  } catch (err) {
-    if (err.statusCode === 502) {
-      return false;
-    }
-    throw err;
-  }
+	try {
+		await service.geocode(aLocation.address);
+		return true;
+	} catch (err) {
+		if (err.statusCode === 502) {
+			return false;
+		}
+		throw err;
+	}
 }

@@ -35,7 +35,11 @@ export class LocalAuthStrategy implements AuthenticationStrategy {
 		/**
 		 * wrap the passport strategy instance with an adapter to plugin to LoopBack authentication
 		 */
-		this.strategy = new StrategyAdapter(this.passportstrategy, this.name, this.mapProfile.bind(this));
+		this.strategy = new StrategyAdapter(
+			this.passportstrategy,
+			this.name,
+			this.mapProfile.bind(this)
+		);
 	}
 
 	/**
