@@ -1,32 +1,31 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {User, UserWithRelations} from './user.model';
+import { belongsTo, Entity, model, property } from '@loopback/repository';
+import { User, UserWithRelations } from './user.model';
 
 @model()
 export class UserCredentials extends Entity {
-  @property({
-    type: 'string',
-    id: true,
-  })
-  id: string;
+	@property({
+		type: 'string',
+		id: true
+	})
+	id: string;
 
-  @property({
-    type: 'string',
-    required: true,
-    hidden: true,
-  })
-  password: string;
+	@property({
+		type: 'string',
+		required: true,
+		hidden: true
+	})
+	password: string;
 
-  @belongsTo(() => User)
-  userId?: string;
+	@belongsTo(() => User)
+	userId?: string;
 
-  constructor(data?: Partial<UserCredentials>) {
-    super(data);
-  }
+	constructor(data?: Partial<UserCredentials>) {
+		super(data);
+	}
 }
 
 export interface UserCredentialsRelations {
-  user: UserWithRelations
+	user: UserWithRelations;
 }
 
-export type UserCredentialsWithRelations = UserCredentials &
-  UserCredentialsRelations;
+export type UserCredentialsWithRelations = UserCredentials & UserCredentialsRelations;
